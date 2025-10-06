@@ -1,0 +1,82 @@
+name: Deploy (Prod, digitalformsapp)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "app/**"
+      - "config/**"
+      - "ops/**"
+      - "scripts/**"
+      - "templates/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - "docker-compose.prod.yml"
+      - "requirements.txt"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: dsfm-prod
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: digitalformsapp
+    env:
+      COMPOSE_PROJECT_NAME: dsfm
+      DOCKER_BUILDKIT: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure Docker usable
+        run: |
+          docker --version
+          docker compose version
+
+      - name: Write .env from secrets
+        run: |
+          cat > .env <<'EOF'
+          APP_ENV=prod
+          APP_SECRET=${{ secrets.APP_SECRET }}
+          BASE_URL=${{ secrets.BASE_URL }}
+
+          MONGO_URI=${{ secrets.MONGO_URI || 'mongodb://mongo:27017' }}
+          MONGO_DB=${{ secrets.MONGO_DB || 'marketingdb' }}
+
+          LP_CAMPAIGN_ID=${{ secrets.LP_CAMPAIGN_ID }}
+          LP_SUPPLIER_ID=${{ secrets.LP_SUPPLIER_ID }}
+          LP_KEY=${{ secrets.LP_KEY }}
+
+          AGENT_TOKEN=${{ secrets.AGENT_TOKEN }}
+          CLIENT_TOKEN=${{ secrets.CLIENT_TOKEN }}
+          PORTAL_TOKEN=${{ secrets.PORTAL_TOKEN }}
+          EOF
+          echo "Wrote .env"
+
+      - name: Build & start containers (no dev nginx)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --remove-orphans --scale nginx=0
+          docker compose ps
+
+      - name: Health check (local port)
+        run: |
+          for i in {1..20}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8102/healthz || true)
+            if [ "$code" = "200" ]; then
+              echo "App healthy."
+              exit 0
+            fi
+            echo "Waiting for app... ($i)"
+            sleep 2
+          done
+          echo "Health check failed"
+          docker compose logs --no-color --since 5m
+          exit 1
+
+      - name: Prune old images (light cleanup)
+        run: docker image prune -f
