@@ -38,25 +38,25 @@ jobs:
           docker --version
           docker compose version
 
-      - name: Write .env from secrets
-        run: |
-          cat > .env <<'EOF'
-          APP_ENV=prod
-          APP_SECRET=${{ secrets.APP_SECRET }}
-          BASE_URL=${{ secrets.BASE_URL }}
+      # - name: Write .env from secrets
+      #   run: |
+      #     cat > .env <<'EOF'
+      #     APP_ENV=prod
+      #     APP_SECRET=${{ secrets.APP_SECRET }}
+      #     BASE_URL=${{ secrets.BASE_URL }}
 
-          MONGO_URI=${{ secrets.MONGO_URI || 'mongodb://mongo:27017' }}
-          MONGO_DB=${{ secrets.MONGO_DB || 'marketingdb' }}
+      #     MONGO_URI=${{ secrets.MONGO_URI || 'mongodb://mongo:27017' }}
+      #     MONGO_DB=${{ secrets.MONGO_DB || 'marketingdb' }}
 
-          LP_CAMPAIGN_ID=${{ secrets.LP_CAMPAIGN_ID }}
-          LP_SUPPLIER_ID=${{ secrets.LP_SUPPLIER_ID }}
-          LP_KEY=${{ secrets.LP_KEY }}
+      #     LP_CAMPAIGN_ID=${{ secrets.LP_CAMPAIGN_ID }}
+      #     LP_SUPPLIER_ID=${{ secrets.LP_SUPPLIER_ID }}
+      #     LP_KEY=${{ secrets.LP_KEY }}
 
-          AGENT_TOKEN=${{ secrets.AGENT_TOKEN }}
-          CLIENT_TOKEN=${{ secrets.CLIENT_TOKEN }}
-          PORTAL_TOKEN=${{ secrets.PORTAL_TOKEN }}
-          EOF
-          echo "Wrote .env"
+      #     AGENT_TOKEN=${{ secrets.AGENT_TOKEN }}
+      #     CLIENT_TOKEN=${{ secrets.CLIENT_TOKEN }}
+      #     PORTAL_TOKEN=${{ secrets.PORTAL_TOKEN }}
+      #     EOF
+      #     echo "Wrote .env"
 
       - name: Build & start containers (no dev nginx)
         run: |
