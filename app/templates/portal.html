@@ -4,33 +4,48 @@
 <h1 class="text-2xl font-semibold mb-6">Submissions Portal</h1>
 
 <form method="get" class="grid md:grid-cols-6 gap-3 mb-4">
+  <!-- Keep token in the query if not using header -->
   <input type="hidden" name="token" value="{{ request.args.get('token','') }}">
+
   <select name="client" class="rounded-lg border border-gray-300 px-3 py-2">
     <option value="">All clients</option>
     {% for c in options.clients %}
       <option value="{{ c }}" {% if filters.client==c %}selected{% endif %}>{{ c }}</option>
     {% endfor %}
   </select>
+
   <select name="form" class="rounded-lg border border-gray-300 px-3 py-2">
     <option value="">All forms</option>
     {% for f in options.forms %}
       <option value="{{ f }}" {% if filters.form==f %}selected{% endif %}>{{ f }}</option>
     {% endfor %}
   </select>
+
   <select name="status" class="rounded-lg border border-gray-300 px-3 py-2">
     <option value="">Any status</option>
     {% for s in options.statuses %}
       <option value="{{ s }}" {% if filters.status==s %}selected{% endif %}>{{ s }}</option>
     {% endfor %}
   </select>
+
   <input type="date" name="from" value="{{ filters.from or '' }}" class="rounded-lg border border-gray-300 px-3 py-2">
   <input type="date" name="to" value="{{ filters.to or '' }}" class="rounded-lg border border-gray-300 px-3 py-2">
+
   <input type="text" name="q" placeholder="Search name/email/phone"
          value="{{ filters.q or '' }}" class="rounded-lg border border-gray-300 px-3 py-2 md:col-span-2">
-  <div class="flex gap-2 md:col-span-4">
+
+  <select name="page_size" class="rounded-lg border border-gray-300 px-3 py-2">
+    {% set sizes = [10,20,50,100] %}
+    {% for s in sizes %}
+      <option value="{{ s }}" {% if page_size==s %}selected{% endif %}>Page size: {{ s }}</option>
+    {% endfor %}
+  </select>
+
+  <div class="flex gap-2 md:col-span-2">
     <button class="rounded-lg bg-brand-600 text-white px-4 py-2 font-medium">Apply</button>
+
     <a class="rounded-lg border border-brand-600 text-brand-700 px-4 py-2 font-medium"
-       href="/portal/export.csv?client={{ filters.client or '' }}&form={{ filters.form or '' }}&status={{ filters.status or '' }}&from={{ filters.from or '' }}&to={{ filters.to or '' }}&q={{ filters.q or '' }}&token={{ request.args.get('token','') }}">
+       href="/portal/export.csv?client={{ filters.client or '' }}&form={{ filters.form or '' }}&status={{ filters.status or '' }}&from={{ filters.from or '' }}&to={{ filters.to or '' }}&q={{ filters.q or '' }}&page_size={{ page_size }}&token={{ request.args.get('token','') }}">
       Export CSV
     </a>
   </div>
@@ -52,56 +67,63 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-100">
-      {% for s in submissions %}
-        {% set p = s.payload or {} %}
-        {% set d = s.delivery or {} %}
-        {% set lp = (d.last_result or {}) %}
-        {% set badge = 'bg-gray-100 text-gray-700' %}
-        {% if d.status == 'delivered' %}{% set badge = 'bg-green-100 text-green-700' %}{% endif %}
-        {% if d.status == 'duplicated' %}{% set badge = 'bg-yellow-100 text-yellow-700' %}{% endif %}
-        {% if d.status == 'error' %}{% set badge = 'bg-red-100 text-red-700' %}{% endif %}
-
+      {% if submissions|length == 0 %}
         <tr>
-          <td class="px-4 py-2 whitespace-nowrap">{{ s.created_at }}</td>
-          <td class="px-4 py-2">
-            <div class="font-medium">{{ s.client_slug }}</div>
-            <div class="text-xs text-gray-500">{{ s.form_slug }}</div>
-          </td>
-          <td class="px-4 py-2">
-            {{ p.first_name or '' }} {{ p.last_name or '' }}
-          </td>
-          <td class="px-4 py-2">
-            <div>{{ p.email or '' }}</div>
-            <div class="text-xs text-gray-500">{{ p.number1 or '' }}</div>
-          </td>
-          <td class="px-4 py-2">
-            <span class="text-xs px-2 py-1 rounded-full {{ badge }}">{{ d.status or 'pending' }}</span>
-          </td>
-          <td class="px-4 py-2">
-            {{ lp.value or '' }}
-          </td>
-          <td class="px-4 py-2">
-            <details>
-              <summary class="cursor-pointer text-brand-700">View</summary>
-              <div class="mt-2">
-                <div class="text-xs text-gray-500 mb-1">Payload</div>
-                <pre class="bg-gray-50 p-2 rounded">{{ p|tojson(indent=2) }}</pre>
-                <div class="text-xs text-gray-500 mt-3 mb-1">Last Result</div>
-                <pre class="bg-gray-50 p-2 rounded">{{ (d.last_result or {})|tojson(indent=2) }}</pre>
-              </div>
-            </details>
-          </td>
+          <td colspan="7" class="px-4 py-6 text-center text-gray-500">No submissions match your filters.</td>
         </tr>
-      {% endfor %}
+      {% else %}
+        {% for s in submissions %}
+          {% set p = s.payload or {} %}
+          {% set d = s.delivery or {} %}
+          {% set last = d.last_result or {} %}
+          {% set badge = 'bg-gray-100 text-gray-700' %}
+          {% if d.status == 'delivered' %}{% set badge = 'bg-green-100 text-green-700' %}{% endif %}
+          {% if d.status == 'duplicated' %}{% set badge = 'bg-yellow-100 text-yellow-700' %}{% endif %}
+          {% if d.status == 'error' %}{% set badge = 'bg-red-100 text-red-700' %}{% endif %}
+
+          <tr>
+            <td class="px-4 py-2 whitespace-nowrap">{{ s.created_at }}</td>
+            <td class="px-4 py-2">
+              <div class="font-medium">{{ s.client_slug }}</div>
+              <div class="text-xs text-gray-500">{{ s.form_slug }}</div>
+            </td>
+            <td class="px-4 py-2">
+              {{ p.first_name or '' }} {{ p.last_name or '' }}
+            </td>
+            <td class="px-4 py-2">
+              <div>{{ p.email or '' }}</div>
+              <div class="text-xs text-gray-500">{{ p.number1 or '' }}</div>
+            </td>
+            <td class="px-4 py-2">
+              <span class="text-xs px-2 py-1 rounded-full {{ badge }}">{{ d.status or 'pending' }}</span>
+            </td>
+            <td class="px-4 py-2">
+              {{ last.value or '' }}
+            </td>
+            <td class="px-4 py-2">
+              <details>
+                <summary class="cursor-pointer text-brand-700">View</summary>
+                <div class="mt-2">
+                  <div class="text-xs text-gray-500 mb-1">Payload</div>
+                  <pre class="bg-gray-50 p-2 rounded">{{ p|tojson(indent=2) }}</pre>
+                  <div class="text-xs text-gray-500 mt-3 mb-1">Last Result</div>
+                  <pre class="bg-gray-50 p-2 rounded">{{ last|tojson(indent=2) }}</pre>
+                </div>
+              </details>
+            </td>
+          </tr>
+        {% endfor %}
+      {% endif %}
     </tbody>
   </table>
 </div>
 
 {% if pages > 1 %}
-  <div class="mt-4 flex items-center gap-2">
-    {% for i in range(1, pages+1) %}
-      <a href="?client={{ filters.client or '' }}&form={{ filters.form or '' }}&status={{ filters.status or '' }}&from={{ filters.from or '' }}&to={{ filters.to or '' }}&q={{ filters.q or '' }}&page={{ i }}&token={{ request.args.get('token','') }}"
-         class="px-3 py-1 rounded border {% if i==page %}bg-brand-600 text-white border-brand-600{% else %}border-gray-300 text-gray-700{% endif %}">
+  <div class="mt-4 flex items-center gap-2 flex-wrap">
+    {% set token = request.args.get('token','') %}
+    {% for i in range(1, pages + 1) %}
+      <a href="?client={{ filters.client or '' }}&form={{ filters.form or '' }}&status={{ filters.status or '' }}&from={{ filters.from or '' }}&to={{ filters.to or '' }}&q={{ filters.q or '' }}&page={{ i }}&page_size={{ page_size }}&token={{ token }}"
+         class="px-3 py-1 rounded border {% if i==page %}bg-brand-600 text-white border-brand-600{% else %}border-gray-300 text-gray-700 hover:border-brand-600{% endif %}">
         {{ i }}
       </a>
     {% endfor %}
