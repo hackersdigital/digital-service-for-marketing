@@ -1,5 +1,21 @@
-<!doctype html><html><body>
-<h3>Status: {{ status|upper }}</h3>
-<pre>{{ detail|tojson(indent=2) }}</pre>
-<a href="/">Back</a>
-</body></html>
+{% extends "base.html" %}
+{% block title %}Result • Digital Service{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-3xl">
+  <div class="rounded-2xl border border-gray-200 bg-white p-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-xl font-semibold">Submission Result</h1>
+      <span class="text-xs px-2 py-1 rounded-full
+        {% if status == 'delivered' %} bg-green-100 text-green-700
+        {% elif status == 'duplicated' %} bg-yellow-100 text-yellow-700
+        {% else %} bg-red-100 text-red-700 {% endif %}">
+        {{ status|upper }}
+      </span>
+    </div>
+    <pre class="mt-4 rounded-lg bg-gray-50 p-4 overflow-auto text-xs text-gray-800">{{ detail|tojson(indent=2) }}</pre>
+    <div class="mt-6 flex justify-end">
+      <a href="/" class="text-brand-700 hover:underline">Back to forms</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

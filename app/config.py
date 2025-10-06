@@ -12,5 +12,6 @@ def load_config(app):
         LP_SUPPLIER_ID=os.getenv("LP_SUPPLIER_ID"),
         LP_KEY=os.getenv("LP_KEY"),
         AGENT_TOKEN=os.getenv("AGENT_TOKEN"),
-        CLIENT_TOKEN=os.getenv("CLIENT_TOKEN")
+        CLIENT_TOKEN=os.getenv("CLIENT_TOKEN"),
+        PORTAL_TOKEN=os.getenv("PORTAL_TOKEN")
     )
