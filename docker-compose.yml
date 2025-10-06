@@ -4,7 +4,7 @@ services:
     build: .
     env_file: .env
     depends_on: [mongo]
-    ports: ["8000:8000"]
+    ports: ["8015:8000"]
     volumes:
       - app_data:/var/app/data
   mongo:
