@@ -102,14 +102,25 @@
             </td>
             <td class="px-4 py-2">
               <details>
-                <summary class="cursor-pointer text-brand-700">View</summary>
-                <div class="mt-2">
-                  <div class="text-xs text-gray-500 mb-1">Payload</div>
-                  <pre class="bg-gray-50 p-2 rounded">{{ p|tojson(indent=2) }}</pre>
-                  <div class="text-xs text-gray-500 mt-3 mb-1">Last Result</div>
-                  <pre class="bg-gray-50 p-2 rounded">{{ last|tojson(indent=2) }}</pre>
-                </div>
-              </details>
+  <summary class="cursor-pointer text-brand-700">View</summary>
+  <div class="mt-2">
+    <div class="text-xs text-gray-500 mb-1">Submission Payload (agent input)</div>
+    <pre class="bg-gray-50 p-2 rounded">{{ p|tojson(indent=2) }}</pre>
+
+    {% set dl = delivery_map.get(s._id) %}
+    {% if dl %}
+      <div class="text-xs text-gray-500 mt-3 mb-1">Outbound Request → Client</div>
+      <pre class="bg-gray-50 p-2 rounded">{{ (dl.request or {}).body or {} | tojson(indent=2) }}</pre>
+    {% else %}
+      <div class="text-xs text-gray-500 mt-3 mb-1">Outbound Request</div>
+      <pre class="bg-gray-50 p-2 rounded">{}</pre>
+    {% endif %}
+
+    <div class="text-xs text-gray-500 mt-3 mb-1">Last Result (client response)</div>
+    <pre class="bg-gray-50 p-2 rounded">{{ last|tojson(indent=2) }}</pre>
+  </div>
+</details>
+
             </td>
           </tr>
         {% endfor %}
