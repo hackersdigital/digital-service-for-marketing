@@ -62,6 +62,11 @@ jobs:
         run: |
           docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --remove-orphans --scale nginx=0
           docker compose ps
+      - name: Load clients/forms
+        run: |
+            docker compose exec -T web python scripts/load_config.py \
+              --clients config/seed_clients.json \
+              --forms config/seed_forms.json
 
       - name: Health check (local port)
         run: |
