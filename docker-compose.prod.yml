@@ -13,7 +13,7 @@ services:
       APP_ENV: "prod"
     # Basic healthcheck used by the GH Action and ops
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:8000/healthz"]
+      test: ["CMD", "curl", "-fsS", "http://localhost:8015/healthz"]
       interval: 10s
       timeout: 3s
       retries: 10
