@@ -1,0 +1,121 @@
+[
+  {
+    "client_slug": "leadprosper",
+    "form_slug": "zrm-roundup",
+    "name": "LP – ZRM Roundup Lead Form",
+    "status": "active",
+    "ui": {
+      "fields": [
+        { "name": "Center_Code", "label": "Center Code", "type": "text", "required": true },
+        { "name": "data_source", "label": "Data Source", "type": "text", "required": true },
+        { "name": "ip_adress", "label": "IP Address", "type": "text", "required": true },
+
+        { "name": "first_name", "label": "First Name", "type": "text", "required": true },
+        { "name": "last_name", "label": "Last Name", "type": "text", "required": true },
+        { "name": "number1", "label": "Phone", "type": "tel", "placeholder": "(XXX) XXX-XXXX", "required": true },
+        { "name": "email", "label": "Email", "type": "email", "required": true },
+
+        { "name": "other_cancer_type", "label": "Other Cancer Type", "type": "text", "required": true },
+        { "name": "Diagnosis_Date", "label": "Diagnosis Date", "type": "text", "required": true },
+        { "name": "date_of_birth", "label": "DOB (MM/DD/YYYY)", "type": "text", "required": true },
+
+        { "name": "plaid_ID", "label": "Plaid ID", "type": "text", "required": true },
+
+        { "name": "verification_id", "label": "Verification ID", "type": "text" },
+        { "name": "verification_id_2", "label": "Verification ID 2", "type": "text" },
+
+        { "name": "street", "label": "Street", "type": "text" },
+        { "name": "city", "label": "City", "type": "text" },
+        { "name": "state", "label": "State", "type": "text" },
+        { "name": "zip", "label": "ZIP", "type": "text" },
+
+        { "name": "notes", "label": "Notes", "type": "text" },
+        { "name": "external_id", "label": "External ID", "type": "text" },
+        { "name": "currently_working_with_attorney", "label": "Working With Attorney?", "type": "text" },
+        { "name": "medication", "label": "Medication", "type": "text" },
+        { "name": "who_is_doctor", "label": "Who Is Doctor", "type": "text" },
+        { "name": "inquiry_date", "label": "Inquiry Date", "type": "text" },
+        { "name": "alt_phone", "label": "Alt Phone", "type": "text" },
+        { "name": "Proof_Of_Cancer", "label": "Proof Of Cancer", "type": "text" },
+        { "name": "Where_Diagnosed", "label": "Where Diagnosed", "type": "text" },
+        { "name": "Diagnosed_Address", "label": "Diagnosed Address", "type": "text" },
+        { "name": "Diagnosed_Phone", "label": "Diagnosed Phone", "type": "text" },
+        { "name": "Diagnosing_Doctor", "label": "Diagnosing Doctor", "type": "text" },
+        { "name": "Where_Treated", "label": "Where Treated", "type": "text" },
+        { "name": "Treated_Address", "label": "Treated Address", "type": "text" },
+        { "name": "Treated_Phone", "label": "Treated Phone", "type": "text" },
+        { "name": "Treated_Doctor", "label": "Treated Doctor", "type": "text" },
+        { "name": "Agent_Name", "label": "Agent Name", "type": "text" },
+
+        { "name": "lp_action", "label": "LP Action (test optional)", "type": "text" },
+        { "name": "lp_subid1", "label": "LP SubID1 (optional)", "type": "text" },
+        { "name": "lp_subid2", "label": "LP SubID2 (optional)", "type": "text" }
+      ]
+    },
+    "delivery": {
+      "method": "POST",
+      "url": "https://api.leadprosper.io/direct_post",
+      "headers": { "Content-Type": "application/x-www-form-urlencoded" },
+      "mapping": {
+        "lp_campaign_id": "{{ env.LP_CAMPAIGN_ID }}",
+        "lp_supplier_id": "{{ env.LP_SUPPLIER_ID }}",
+        "lp_key": "{{ env.LP_KEY }}",
+
+        "lp_action": "{{ form.lp_action | default('') }}",
+        "lp_subid1": "{{ form.lp_subid1 | default('') }}",
+        "lp_subid2": "{{ form.lp_subid2 | default('') }}",
+
+        "Center_Code": "{{ form.Center_Code }}",
+        "data_source": "{{ form.data_source }}",
+        "ip_adress": "{{ form.ip_adress or ctx.client_ip }}",
+
+        "first_name": "{{ form.first_name }}",
+        "last_name": "{{ form.last_name }}",
+        "number1": "{{ form.number1 }}",
+        "email": "{{ form.email }}",
+        "other_cancer_type": "{{ form.other_cancer_type }}",
+        "Diagnosis_Date": "{{ form.Diagnosis_Date }}",
+        "verification_id": "{{ form.verification_id }}",
+        "verification_id_2": "{{ form.verification_id_2 }}",
+        "street": "{{ form.street }}",
+        "city": "{{ form.city }}",
+        "state": "{{ form.state }}",
+        "zip": "{{ form.zip }}",
+        "date_of_birth": "{{ form.date_of_birth }}",
+        "notes": "{{ form.notes }}",
+        "external_id": "{{ form.external_id }}",
+        "currently_working_with_attorney": "{{ form.currently_working_with_attorney }}",
+        "medication": "{{ form.medication }}",
+        "who_is_doctor": "{{ form.who_is_doctor }}",
+        "inquiry_date": "{{ form.inquiry_date }}",
+        "alt_phone": "{{ form.alt_phone }}",
+        "Proof_Of_Cancer": "{{ form.Proof_Of_Cancer }}",
+        "plaid_ID": "{{ form.plaid_ID }}",
+        "Where_Diagnosed": "{{ form.Where_Diagnosed }}",
+        "Diagnosed_Address": "{{ form.Diagnosed_Address }}",
+        "Diagnosed_Phone": "{{ form.Diagnosed_Phone }}",
+        "Diagnosing_Doctor": "{{ form.Diagnosing_Doctor }}",
+        "Where_Treated": "{{ form.Where_Treated }}",
+        "Treated_Address": "{{ form.Treated_Address }}",
+        "Treated_Phone": "{{ form.Treated_Phone }}",
+        "Treated_Doctor": "{{ form.Treated_Doctor }}",
+        "Agent_Name": "{{ form.Agent_Name }}"
+      },
+      "response": {
+        "path": "status",
+        "success_values": ["ACCEPTED"],
+        "duplicate_values": ["DUPLICATED"]
+      },
+      "validation": {
+        "required_fields": [
+          "Center_Code", "data_source", "ip_adress",
+          "first_name", "last_name", "number1", "email",
+          "other_cancer_type", "Diagnosis_Date", "date_of_birth", "plaid_ID"
+        ],
+        "require_any": [
+          ["verification_id", "verification_id_2"]
+        ]
+      }
+    }
+  }
+]

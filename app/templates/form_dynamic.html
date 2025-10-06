@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>{{ form_cfg.name }}</h2>
+
+    <form method="post" action="/f/{{ form_cfg.client_slug }}/{{ form_cfg.form_slug }}/submit">
+      <input type="hidden" name="_agent_token" value="ag_demo_token">
+
+      {% for field in form_cfg.ui.fields %}
+        {% set is_required = field.required|default(false) %}
+        {% set ftype = field.type|default('text') %}
+        {% set placeholder = field.placeholder|default('') %}
+
+        <div style="margin: 6px 0">
+          <label>
+            {{ field.label }}{% if is_required %}<span>*</span>{% endif %}<br>
+            <input
+              name="{{ field.name }}"
+              type="{{ ftype }}"
+              {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+              {% if is_required %}required{% endif %}
+            >
+          </label>
+        </div>
+      {% endfor %}
+
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Digital Service for Marketing{% endblock %}</title>
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config: subtle brand accents
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#eef2ff', 100:'#e0e7ff', 600:'#4f46e5', 700:'#4338ca' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <!-- Top bar -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-brand-600 text-white grid place-items-center font-bold">DM</div>
+        <a href="/" class="text-lg font-semibold tracking-tight">Digital Service for Marketing</a>
+      </div>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="/" class="hover:text-brand-700">Forms</a>
+        <a href="/docs" class="hover:text-brand-700">API Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-16 border-t border-gray-200">
+    <div class="mx-auto max-w-6xl px-4 py-6 text-xs text-gray-500">
+      © {{ 2025 }} Digital Service for Marketing • Built with Flask & MongoDB
+    </div>
+  </footer>
+</body>
+</html>

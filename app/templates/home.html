@@ -1,0 +1,11 @@
+<!doctype html><html><body>
+<h2>Available Forms</h2>
+{% for client, forms in groups.items() %}
+  <h3>{{ client|capitalize }}</h3>
+  <ul>
+    {% for f in forms %}
+      <li>{{ f.name }} — <a href="/f/{{ f.client_slug }}/{{ f.form_slug }}">Open</a></li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+</body></html>
