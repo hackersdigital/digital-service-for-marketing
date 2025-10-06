@@ -1,0 +1,35 @@
+# docker-compose.prod.yml
+version: "3.9"
+
+services:
+  web:
+    # Expose the app on host: 8102 -> container: 8000
+    ports:
+      - "8102:8000"
+    # Make sure prod runs even after reboot
+    restart: unless-stopped
+    # Force prod mode (overrides .env if needed)
+    environment:
+      APP_ENV: "prod"
+    # Basic healthcheck used by the GH Action and ops
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    # Keep container logs bounded
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongo:
+    # Don't publish Mongo to the host in prod
+    ports: []
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
