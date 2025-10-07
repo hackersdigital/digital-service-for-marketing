@@ -7,7 +7,7 @@
     "ui": {
       "fields": [
         { "name": "Center_Code", "label": "Center Code", "type": "text", "required": true },
-        { "name": "data_source", "label": "Data Source", "type": "text", "required": true },
+        { "name": "data_source", "label": "Data Source", "type": "text", "required": false },
         { "name": "ip_adress", "label": "IP Address", "type": "text", "required": true },
 
         { "name": "first_name", "label": "First Name", "type": "text", "required": true },
