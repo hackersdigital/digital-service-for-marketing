@@ -55,7 +55,7 @@
     "delivery": {
       "method": "POST",
       "url": "https://api.leadprosper.io/direct_post",
-      "headers": { "Content-Type": "application/x-www-form-urlencoded" },
+      "headers": { "Content-Type": "application/json" },
       "mapping": {
         "lp_campaign_id": "{{ env.LP_CAMPAIGN_ID }}",
         "lp_supplier_id": "{{ env.LP_SUPPLIER_ID }}",
