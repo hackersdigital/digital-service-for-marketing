@@ -236,5 +236,105 @@
         ]
       }
     }
+  },
+  {
+    "client_slug": "leadprosper",
+    "form_slug": "zrm-Talcum-lf-five9-test",
+    "name": "LP – Talcum LF FIVE9 TEST",
+    "status": "active",
+    "ui": {
+      "fields": [
+        { "name": "Source", "label": "Source", "type": "text", "required": true },
+
+
+        { "name": "first_name", "label": "First Name", "type": "text", "required": true },
+        { "name": "last_name", "label": "Last Name", "type": "text", "required": true },
+        { "name": "number1", "label": "Phone", "type": "tel", "placeholder": "6503271100", "required": true },
+        { "name": "email", "label": "Email", "type": "email", "required": true },
+
+         { "name": "street", "label": "Street", "type": "text" },
+        { "name": "city", "label": "City", "type": "text" },
+        { "name": "state", "label": "State", "type": "text" },
+        { "name": "zip", "label": "ZIP", "type": "text" },
+
+        { "name": "other_cancer_type", "label": "Cancer type here", "type": "text", "required": true },
+        { "name": "diagnosis_date", "label": "Diagnosis Date MM/DD/YYYY", "type": "text", "required": true },
+        { "name": "Diagnosed_in_the_last_4_years", "label": "Diagnosed_in_the_last_4_years", "type": "text", "required": true },
+
+        { "name": "Used_product_12_months_or_more_before_dx", "label": "Used_product_12_months_or_more_before_dx", "type": "text", "required": true },
+
+        { "name": "Does_the_Injured_Party_Have_an_Attorney", "label": "Does_the_Injured_Party_Have_an_Attorney", "type": "text" , "required": true },
+        { "name": "date_of_birth", "label": "Date of Birth MM/DD/YYYY", "type": "text" },
+
+       
+
+        { "name": "notes", "label": "Notes", "type": "text" },
+        { "name": "external_id", "label": "External ID", "type": "text" },
+        { "name": "ip_adress", "label": "IP Address", "type": "text" },
+        { "name": "verification_id_2", "label": "Place JornayaID here", "type": "text" },
+        { "name": "verification_id", "label": "Place TrustedForm here", "type": "text" },
+        { "name": "Visit_Date", "label": "Visit  MM/DD/YYYY", "type": "text" },
+        
+
+        { "name": "lp_action", "label": "LP Action (test optional)", "type": "text" },
+        { "name": "lp_subid1", "label": "LP SubID1 (optional)", "type": "text" },
+        { "name": "lp_subid2", "label": "LP SubID2 (optional)", "type": "text" }
+      ]
+    },
+    "delivery": {
+      "method": "POST",
+      "url": "https://api.leadprosper.io/direct_post",
+      "headers": { "Content-Type": "application/json" },
+      "mapping": {
+        "lp_campaign_id": "30814",
+        "lp_supplier_id": "95507",
+        "lp_key": "goda5jo6axvre",
+
+        "lp_action": "{{ form.lp_action | default('') }}",
+        "lp_subid1": "{{ form.lp_subid1 | default('') }}",
+        "lp_subid2": "{{ form.lp_subid2 | default('') }}",
+
+        "Source": "{{ form.Source }}",
+
+        "first_name": "{{ form.first_name }}",
+        "last_name": "{{ form.last_name }}",
+        "number1": "{{ form.number1 }}",
+        "email": "{{ form.email }}",
+        "street": "{{ form.street }}",
+        "city": "{{ form.city }}",
+        "state": "{{ form.state }}",
+        "zip": "{{ form.zip }}",
+
+        "other_cancer_type": "{{ form.other_cancer_type }}",
+
+
+
+        "diagnosis_date": "{{ form.diagnosis_date }}",
+        "Diagnosed_in_the_last_4_years": "{{ form.Diagnosed_in_the_last_4_years }}",
+        "Used_product_12_months_or_more_before_dx": "{{ form.Used_product_12_months_or_more_before_dx }}",
+        "Does_the_Injured_Party_Have_an_Attorney": "{{ form.Does_the_Injured_Party_Have_an_Attorney }}",
+        "date_of_birth": "{{ form.date_of_birth }}",
+        "notes": "{{ form.notes }}",
+        "external_id": "{{ form.external_id }}",
+        "ip_adress": "{{ form.ip_adress }}",
+        "verification_id_2": "{{ form.verification_id_2 }}",
+        "verification_id": "{{ form.verification_id }}",
+        "Visit_Date": "{{ form.Visit_Date }}"
+        
+      },
+      "response": {
+        "path": "status",
+        "success_values": ["ACCEPTED"],
+        "duplicate_values": ["DUPLICATED"]
+      },
+      "validation": {
+        "required_fields": [
+        
+        ],
+        "require_any": [
+          
+        ]
+      }
+    }
   }
 ]
