@@ -271,8 +271,8 @@
         { "name": "notes", "label": "Notes", "type": "text" },
         { "name": "external_id", "label": "External ID", "type": "text" },
         { "name": "ip_adress", "label": "IP Address", "type": "text" },
+        { "name": "verification_id", "label": "Place TrustedForm here", "type": "text" , "required": true },
         { "name": "verification_id_2", "label": "Place JornayaID here", "type": "text" },
-        { "name": "verification_id", "label": "Place TrustedForm here", "type": "text" },
         { "name": "Visit_Date", "label": "Visit  MM/DD/YYYY", "type": "text" },
         
 
