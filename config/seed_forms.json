@@ -244,26 +244,26 @@
     "status": "active",
     "ui": {
       "fields": [
-        { "name": "Source", "label": "Source", "type": "text", "required": true },
+        { "name": "Source", "label": "Source", "type": "text", "required": false },
 
 
-        { "name": "first_name", "label": "First Name", "type": "text", "required": true },
-        { "name": "last_name", "label": "Last Name", "type": "text", "required": true },
-        { "name": "number1", "label": "Phone", "type": "tel", "placeholder": "6503271100", "required": true },
-        { "name": "email", "label": "Email", "type": "email", "required": true },
+        { "name": "first_name", "label": "First Name", "type": "text", "required": false },
+        { "name": "last_name", "label": "Last Name", "type": "text", "required": false },
+        { "name": "number1", "label": "Phone", "type": "text", "placeholder": "XXXXXXXXXX", "required": false },
+        { "name": "email", "label": "Email", "type": "email", "required": false },
 
          { "name": "street", "label": "Street", "type": "text" },
         { "name": "city", "label": "City", "type": "text" },
         { "name": "state", "label": "State", "type": "text" },
         { "name": "zip", "label": "ZIP", "type": "text" },
 
-        { "name": "other_cancer_type", "label": "Cancer type here", "type": "text", "required": true },
-        { "name": "diagnosis_date", "label": "Diagnosis Date MM/DD/YYYY", "type": "text", "required": true },
-        { "name": "Diagnosed_in_the_last_4_years", "label": "Diagnosed_in_the_last_4_years", "type": "text", "required": true },
+        { "name": "other_cancer_type", "label": "Cancer type here", "type": "text", "required": false },
+        { "name": "diagnosis_date", "label": "Diagnosis Date MM/DD/YYYY", "type": "text", "required": false },
+        { "name": "Diagnosed_in_the_last_4_years", "label": "Diagnosed_in_the_last_4_years", "type": "text", "required": false },
 
-        { "name": "Used_product_12_months_or_more_before_dx", "label": "Used_product_12_months_or_more_before_dx", "type": "text", "required": true },
+        { "name": "Used_product_12_months_or_more_before_dx", "label": "Used_product_12_months_or_more_before_dx", "type": "text", "required": false },
 
-        { "name": "Does_the_Injured_Party_Have_an_Attorney", "label": "Does_the_Injured_Party_Have_an_Attorney", "type": "text" , "required": true },
+        { "name": "Does_the_Injured_Party_Have_an_Attorney", "label": "Does_the_Injured_Party_Have_an_Attorney", "type": "text" , "required": false },
         { "name": "date_of_birth", "label": "Date of Birth MM/DD/YYYY", "type": "text" },
 
        
@@ -332,7 +332,7 @@
         
         ],
         "require_any": [
-          
+          ["verification_id", "verification_id_2"]
         ]
       }
     }
