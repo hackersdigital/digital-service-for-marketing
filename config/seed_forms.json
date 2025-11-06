@@ -271,8 +271,8 @@
         { "name": "notes", "label": "Notes", "type": "text" },
         { "name": "external_id", "label": "External ID", "type": "text" },
         { "name": "ip_adress", "label": "IP Address", "type": "text" },
-        { "name": "verification_id", "label": "Place TrustedForm here", "type": "text" , "required": true },
-        { "name": "verification_id_2", "label": "Place JornayaID here", "type": "text" },
+        { "name": "verification_id", "label": "Place TrustedForm here", "placeholder": "verification_id", "type": "text" , "required": false },
+        { "name": "verification_id_2", "label": "Place JornayaID here","placeholder": "verification_id_2", "type": "text" , "required": false },
         { "name": "Visit_Date", "label": "Visit  MM/DD/YYYY", "type": "text" },
         
 
@@ -286,9 +286,9 @@
       "url": "https://api.leadprosper.io/direct_post",
       "headers": { "Content-Type": "application/json" },
       "mapping": {
-        "lp_campaign_id": "30814",
+        "lp_campaign_id": "30828",
         "lp_supplier_id": "95527",
-        "lp_key": "goda5jo6axvre",
+        "lp_key": "ywphlz22ulv31",
 
         "lp_action": "{{ form.lp_action | default('') }}",
         "lp_subid1": "{{ form.lp_subid1 | default('') }}",
