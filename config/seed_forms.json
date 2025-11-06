@@ -249,7 +249,7 @@
 
         { "name": "first_name", "label": "First Name", "type": "text", "required": false },
         { "name": "last_name", "label": "Last Name", "type": "text", "required": false },
-        { "name": "number1", "label": "Phone", "type": "text", "placeholder": "XXXXXXXXXX", "required": false },
+        { "name": "number11", "label": "Phone", "type": "text", "placeholder": "XXXXXXXXXX", "required": false },
         { "name": "email", "label": "Email", "type": "email", "required": false },
 
          { "name": "street", "label": "Street", "type": "text" },
@@ -298,7 +298,7 @@
 
         "first_name": "{{ form.first_name }}",
         "last_name": "{{ form.last_name }}",
-        "number1": "{{ form.number1 }}",
+        "number1": "{{ form.number11 }}",
         "email": "{{ form.email }}",
         "street": "{{ form.street }}",
         "city": "{{ form.city }}",
